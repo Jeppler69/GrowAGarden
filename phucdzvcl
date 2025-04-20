@@ -1,52 +1,46 @@
--- GUI kiểu mới với thiết kế đẹp và tính năng spam E 50 lần/s
+-- GUI đơn giản spam E 50 lần/giây
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-gui.Name = "ModernGui"
+gui.Name = "SpamEGui"
 
--- Tạo Frame chính
-local mainFrame = Instance.new("Frame", gui)
-mainFrame.Size = UDim2.new(0, 400, 0, 250)
-mainFrame.Position = UDim2.new(0.5, -200, 0.5, -125)
-mainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-mainFrame.BorderSizePixel = 0
-mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-mainFrame.ClipsDescendants = true
-mainFrame.Active = true
-mainFrame.Draggable = true
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 200, 0, 80)
+frame.Position = UDim2.new(0, 20, 0, 200)
+frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
 
--- Tạo tiêu đề cho GUI
-local title = Instance.new("TextLabel", mainFrame)
-title.Size = UDim2.new(1, 0, 0, 40)
-title.Position = UDim2.new(0, 0, 0, 0)
-title.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-title.Text = "Modern GUI"
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, 0, 0, 30)
+title.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+title.Text = "Spam E - 50 lần/s"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBold
-title.TextSize = 24
-title.TextAlign = Enum.TextAlign.Center
+title.TextSize = 14
 
--- Tạo nút để bật/tắt tính năng spam E
-local toggleButton = Instance.new("TextButton", mainFrame)
-toggleButton.Size = UDim2.new(0.8, 0, 0, 40)
-toggleButton.Position = UDim2.new(0.1, 0, 0.3, 0)
-toggleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-toggleButton.Text = "Turn ON"
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.Font = Enum.Font.GothamBold
-toggleButton.TextSize = 18
+local toggleBtn = Instance.new("TextButton", frame)
+toggleBtn.Size = UDim2.new(0.9, 0, 0, 30)
+toggleBtn.Position = UDim2.new(0.05, 0, 0.5, 0)
+toggleBtn.Text = "Turn ON"
+toggleBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+toggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleBtn.Font = Enum.Font.GothamBold
+toggleBtn.TextSize = 14
 
--- Logic cho nút bật/tắt
-local isSpamming = false
+-- Logic spam E
 local VirtualInputManager = game:GetService("VirtualInputManager")
+local isSpamming = false
 
-toggleButton.MouseButton1Click:Connect(function()
+toggleBtn.MouseButton1Click:Connect(function()
+    if not gui.Enabled then return end  -- Nếu GUI đang bị ẩn, không cho phép nhấn nút
     isSpamming = not isSpamming
-    toggleButton.Text = isSpamming and "Turn OFF" or "Turn ON"
+    toggleBtn.Text = isSpamming and "Turn OFF" or "Turn ON"
 
     if isSpamming then
         task.spawn(function()
             while isSpamming do
-                task.wait(0.02) -- 50 lần mỗi giây (0.02 giây = 50 lần/s)
+                task.wait(0.02) -- 50 lần mỗi giây
                 VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
                 task.wait(0.001)
                 VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
@@ -55,32 +49,14 @@ toggleButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Tạo thanh trượt (slider) nếu bạn muốn thêm tùy chỉnh
-local slider = Instance.new("Frame", mainFrame)
-slider.Size = UDim2.new(0.8, 0, 0, 10)
-slider.Position = UDim2.new(0.1, 0, 0.6, 0)
-slider.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-slider.BorderSizePixel = 0
-
-local sliderBar = Instance.new("Frame", slider)
-sliderBar.Size = UDim2.new(0.5, 0, 1, 0)
-sliderBar.Position = UDim2.new(0, 0, 0, 0)
-sliderBar.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
-
--- Xử lý thanh trượt
-sliderBar.Draggable = true
-sliderBar.MouseButton1Drag:Connect(function()
-    local mouse = player:GetMouse()
-    local newPos = UDim2.new(0, mouse.X - slider.AbsolutePosition.X, 0, 0)
-    sliderBar.Position = newPos
-end)
-
 -- Tính năng đóng/mở GUI khi nhấn Ctrl
 local UserInputService = game:GetService("UserInputService")
 local isGuiVisible = true
 
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    -- Kiểm tra xem có phải phím Ctrl không và không phải phím đã được xử lý
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.LeftControl and not gameProcessed then
+        -- Toggle GUI visibility khi nhấn Ctrl
         isGuiVisible = not isGuiVisible
         gui.Enabled = isGuiVisible
     end
