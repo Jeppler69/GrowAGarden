@@ -33,6 +33,7 @@ local VirtualInputManager = game:GetService("VirtualInputManager")
 local isSpamming = false
 
 toggleBtn.MouseButton1Click:Connect(function()
+    if not gui.Enabled then return end  -- Nếu GUI đang bị ẩn, không cho phép nhấn nút
     isSpamming = not isSpamming
     toggleBtn.Text = isSpamming and "Turn OFF" or "Turn ON"
 
