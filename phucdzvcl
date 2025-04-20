@@ -25,7 +25,7 @@ title.Font = Enum.Font.GothamBold
 title.TextSize = 24
 title.TextAlign = Enum.TextAlign.Center
 
--- Tạo nút để bật/tắt tính năng
+-- Tạo nút để bật/tắt tính năng spam E
 local toggleButton = Instance.new("TextButton", mainFrame)
 toggleButton.Size = UDim2.new(0.8, 0, 0, 40)
 toggleButton.Position = UDim2.new(0.1, 0, 0.3, 0)
@@ -55,7 +55,7 @@ toggleButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Tạo thanh trượt (slider)
+-- Tạo thanh trượt (slider) nếu bạn muốn thêm tùy chỉnh
 local slider = Instance.new("Frame", mainFrame)
 slider.Size = UDim2.new(0.8, 0, 0, 10)
 slider.Position = UDim2.new(0.1, 0, 0.6, 0)
