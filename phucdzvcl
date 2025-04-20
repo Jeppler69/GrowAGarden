@@ -56,7 +56,7 @@ local isGuiVisible = true
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     -- Kiểm tra xem có phải phím Ctrl không và không phải phím đã được xử lý
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.LeftControl and not gameProcessed then
-        -- Toggle GUI visibility
+        -- Toggle GUI visibility khi nhấn Ctrl
         isGuiVisible = not isGuiVisible
         gui.Enabled = isGuiVisible
     end
