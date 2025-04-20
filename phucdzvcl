@@ -47,3 +47,16 @@ toggleBtn.MouseButton1Click:Connect(function()
         end)
     end
 end)
+
+-- Tính năng đóng/mở GUI khi nhấn Ctrl
+local UserInputService = game:GetService("UserInputService")
+local isGuiVisible = true
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    -- Kiểm tra xem có phải phím Ctrl không và không phải phím đã được xử lý
+    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.LeftControl and not gameProcessed then
+        -- Toggle GUI visibility
+        isGuiVisible = not isGuiVisible
+        gui.Enabled = isGuiVisible
+    end
+end)
