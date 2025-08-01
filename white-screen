@@ -1,0 +1,39 @@
+-- White Screen Anti-Lag Toggle by ChatGPT
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local StarterGui = game:GetService("StarterGui")
+
+-- Tạo GUI trắng
+local whiteGui = Instance.new("ScreenGui")
+whiteGui.Name = "AntiLagWhiteScreen"
+whiteGui.ResetOnSpawn = false
+whiteGui.IgnoreGuiInset = true
+whiteGui.DisplayOrder = 9999
+
+local whiteFrame = Instance.new("Frame")
+whiteFrame.Size = UDim2.new(1, 0, 1, 0)
+whiteFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+whiteFrame.BorderSizePixel = 0
+whiteFrame.Parent = whiteGui
+
+-- Nút bật/tắt
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 100, 0, 36)
+button.Position = UDim2.new(1, -110, 1, -46)
+button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+button.TextColor3 = Color3.new(1, 1, 1)
+button.Font = Enum.Font.SourceSansBold
+button.TextScaled = true
+button.Text = "Anti-Lag: OFF"
+button.Parent = whiteGui
+
+whiteGui.Parent = player:WaitForChild("PlayerGui")
+whiteGui.Enabled = false
+
+-- Toggle logic
+local isOn = false
+button.MouseButton1Click:Connect(function()
+	isOn = not isOn
+	whiteGui.Enabled = isOn
+	button.Text = isOn and "Anti-Lag: ON" or "Anti-Lag: OFF"
+end)
